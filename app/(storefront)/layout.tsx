@@ -1,4 +1,4 @@
-import { Header, MobileHeader } from "@/components/store/header";
+import { Header } from "@/components/store/header";
 import { BottomNav } from "@/components/store/bottom-nav";
 
 export default function StorefrontLayout({
@@ -9,11 +9,11 @@ export default function StorefrontLayout({
   return (
     <div className="flex min-h-dvh flex-col">
       <Header />
-      <MobileHeader />
-      <main className="flex-1">{children}</main>
+      {/* offset for fixed header: 68px mobile, 74px desktop */}
+      <main className="flex-1 pt-[68px] md:pt-[74px]">{children}</main>
       <BottomNav />
-      {/* Spacer to prevent content from hiding behind bottom nav on mobile */}
-      <div className="h-16 md:hidden" />
+      {/* Spacer for mobile bottom nav */}
+      <div className="h-20 md:hidden" />
     </div>
   );
 }

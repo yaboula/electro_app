@@ -1,9 +1,15 @@
-import { getPublishedProducts } from "@/lib/queries";
-import { HomeContent } from "@/components/store/home-content";
+import { HeroSection } from "@/components/store/hero-section";
+import { CategoryGrid } from "@/components/store/category-grid";
+import { FeaturedSection } from "@/components/store/featured-section";
+import { TrustBanner } from "@/components/store/trust-banner";
 
-export default async function HomePage() {
-  const products = await getPublishedProducts();
-  const featured = products.slice(0, 8);
-
-  return <HomeContent products={featured} />;
+export default function HomePage() {
+  return (
+    <div className="overflow-x-hidden">
+      <HeroSection />
+      <CategoryGrid />
+      <FeaturedSection />
+      <TrustBanner />
+    </div>
+  );
 }
