@@ -63,7 +63,12 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-muted-foreground hover:text-foreground"
+            render={<Link href="/search" />}
+          >
             <Search className="h-5 w-5" />
             <span className="sr-only">Rechercher</span>
           </Button>
