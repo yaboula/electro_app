@@ -1,5 +1,14 @@
 import { z } from "zod";
 
+// ── Auth ──────────────────────────────────────────────
+export const loginSchema = z.object({
+  email: z.string().email("Email invalide"),
+  password: z.string().min(6, "Mot de passe trop court"),
+});
+
+export type LoginFormData = z.infer<typeof loginSchema>;
+
+// ── Checkout ──────────────────────────────────────────
 export const moroccanPhoneSchema = z
   .string()
   .regex(
