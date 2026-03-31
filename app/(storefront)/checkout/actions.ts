@@ -1,9 +1,11 @@
 "use server";
 
+import { headers } from "next/headers";
 import { createServiceRoleClient } from "@/lib/supabase/service-role";
 import { checkoutSchema } from "@/lib/validations";
 import { normalizePhone } from "@/lib/utils";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
+import { checkoutRateLimit } from "@/lib/rate-limit";
 
 type CheckoutResult =
   | { success: true; whatsappUrl: string; orderId: string }
@@ -27,6 +29,23 @@ export async function createOrderAction(
 
   const supabase = createServiceRoleClient();
   const normalizedPhone = normalizePhone(parsed.data.phone);
+
+  if (checkoutRateLimit) {
+    const headersList = await headers();
+    const ip =
+      headersList.get("x-real-ip") ??
+      headersList.get("x-forwarded-for") ??
+      "unknown";
+    const identifier = `${ip}:${normalizedPhone}`;
+
+    const { success: allowed } = await checkoutRateLimit.limit(identifier);
+    if (!allowed) {
+      return {
+        success: false,
+        error: "Trop de commandes. Veuillez réessayer dans une heure.",
+      };
+    }
+  }
 
   const { data, error } = await supabase.rpc("create_order_atomic", {
     p_inventory_item_id: inventoryItemId,

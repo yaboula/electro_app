@@ -6,7 +6,8 @@ import { Search } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Rechercher — ELECTRO.ma",
+  title: "Recherche",
+  description: "Rechercher dans notre catalogue gaming au Maroc.",
 };
 
 export default async function SearchPage({

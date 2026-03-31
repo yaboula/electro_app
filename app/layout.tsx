@@ -14,10 +14,34 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ELECTRO.ma — Gaming & Tech au Maroc",
+  metadataBase: new URL("https://electro.ma"),
+  title: {
+    default: "ELECTRO.ma — Gaming & Tech au Maroc",
+    template: "%s | ELECTRO.ma",
+  },
   description:
     "Consoles, jeux et accessoires gaming neufs et d'occasion. Livraison partout au Maroc. Paiement à la livraison.",
-  keywords: ["gaming", "maroc", "ps5", "xbox", "nintendo", "occasion", "console"],
+  keywords: [
+    "gaming maroc",
+    "ps5 maroc",
+    "xbox maroc",
+    "console occasion maroc",
+    "jeux vidéo maroc",
+    "nintendo switch maroc",
+  ],
+  openGraph: {
+    type: "website",
+    locale: "fr_MA",
+    siteName: "ELECTRO.ma",
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

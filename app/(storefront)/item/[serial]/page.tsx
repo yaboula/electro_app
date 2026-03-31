@@ -36,13 +36,13 @@ const gradeInfo: Record<
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { serial } = await params;
   const item = await getInventoryItemBySerial(decodeURIComponent(serial));
-  if (!item) return { title: "Article non trouvé — ELECTRO.ma" };
+  if (!item) return { title: "Article non trouvé" };
 
   const product = item.product as { title: string } | null;
   const grade = gradeInfo[item.condition];
 
   return {
-    title: `${product?.title ?? "Article"} ${grade?.label ?? ""} — ELECTRO.ma`,
+    title: `${product?.title ?? "Article"} — Occasion ${grade?.label ?? ""}`,
     description: `${product?.title ?? "Article"} d'occasion disponible à ${formatMAD(item.price)}. ${grade?.description ?? ""}`,
   };
 }

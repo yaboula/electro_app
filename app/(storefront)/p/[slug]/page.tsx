@@ -13,10 +13,10 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
-  if (!product) return { title: "Produit non trouvé — ELECTRO.ma" };
+  if (!product) return { title: "Produit non trouvé" };
 
   return {
-    title: `${product.title} — ELECTRO.ma`,
+    title: product.title,
     description: product.base_description,
     openGraph: {
       images: product.main_image_url ? [product.main_image_url] : [],

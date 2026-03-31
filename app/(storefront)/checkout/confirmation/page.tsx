@@ -7,7 +7,8 @@ import type { Metadata } from "next";
 import { ConfirmationAnimation } from "./animation";
 
 export const metadata: Metadata = {
-  title: "Commande confirmée — ELECTRO.ma",
+  title: "Commande Confirmée",
+  robots: { index: false, follow: false },
 };
 
 export default async function ConfirmationPage({

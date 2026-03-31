@@ -7,7 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Articles d'Occasion — ELECTRO.ma",
+  title: "Articles d'Occasion",
   description:
     "Consoles et jeux d'occasion testés et vérifiés. Grade A et B disponibles avec paiement à la livraison.",
 };

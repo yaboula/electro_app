@@ -4,7 +4,8 @@ import { CheckoutForm } from "@/components/store/checkout-form";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Checkout — ELECTRO.ma",
+  title: "Finaliser la Commande",
+  robots: { index: false, follow: false },
 };
 
 export default async function CheckoutPage({

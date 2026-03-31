@@ -6,9 +6,9 @@ import { Package } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Tous les Produits — ELECTRO.ma",
+  title: "Tous les Produits",
   description:
-    "Consoles, jeux et accessoires gaming neufs et d'occasion au Maroc. Livraison partout, paiement à la livraison.",
+    "Découvrez notre catalogue de consoles, jeux et accessoires gaming neufs et d'occasion au Maroc. Livraison partout, paiement à la livraison.",
 };
 
 export default async function CatalogPage({
