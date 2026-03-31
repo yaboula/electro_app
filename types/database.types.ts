@@ -42,6 +42,7 @@ export type Database = {
           is_published?: boolean;
           updated_at?: string;
         };
+        Relationships: [];
       };
       inventory_items: {
         Row: {
@@ -82,6 +83,15 @@ export type Database = {
           is_active?: boolean;
           updated_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: "inventory_items_product_id_fkey";
+            columns: ["product_id"];
+            isOneToOne: false;
+            referencedRelation: "products";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       customers: {
         Row: {
@@ -110,6 +120,7 @@ export type Database = {
           successful_deliveries?: number;
           failed_deliveries?: number;
         };
+        Relationships: [];
       };
       orders: {
         Row: {
@@ -150,6 +161,15 @@ export type Database = {
           dispatch_notes?: string | null;
           updated_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: "orders_customer_id_fkey";
+            columns: ["customer_id"];
+            isOneToOne: false;
+            referencedRelation: "customers";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       order_items: {
         Row: {
@@ -173,6 +193,22 @@ export type Database = {
           quantity?: number;
           unit_price_at_purchase?: number;
         };
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey";
+            columns: ["order_id"];
+            isOneToOne: false;
+            referencedRelation: "orders";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "order_items_inventory_item_id_fkey";
+            columns: ["inventory_item_id"];
+            isOneToOne: false;
+            referencedRelation: "inventory_items";
+            referencedColumns: ["id"];
+          },
+        ];
       };
     };
     Views: Record<string, never>;

@@ -8,6 +8,44 @@ export const loginSchema = z.object({
 
 export type LoginFormData = z.infer<typeof loginSchema>;
 
+// ── Products ──────────────────────────────────────────
+export const PLATFORMS = [
+  "PS5", "PS4", "Xbox Series", "Xbox One", "Nintendo Switch", "PC", "Accessoire",
+] as const;
+
+export const PRODUCT_TYPES = ["console", "game", "accessory"] as const;
+
+export const productSchema = z.object({
+  title: z.string().min(3, "Minimum 3 caractères"),
+  slug: z.string().regex(/^[a-z0-9-]+$/, "Slug invalide (minuscules, chiffres et tirets)"),
+  platform: z.enum(PLATFORMS),
+  type: z.enum(PRODUCT_TYPES),
+  base_description: z.string().min(10, "Description trop courte"),
+  is_published: z.boolean().default(false),
+});
+
+export type ProductFormData = z.infer<typeof productSchema>;
+
+// ── Inventory ─────────────────────────────────────────
+export const CONDITIONS = ["NUEVO", "USADO_A", "USADO_B"] as const;
+
+export const inventoryItemSchema = z
+  .object({
+    product_id: z.string().uuid("Produit requis"),
+    condition: z.enum(CONDITIONS),
+    serial_number: z.string().optional(),
+    grade_notes: z.string().optional(),
+    stock_quantity: z.number().int().min(0, "Quantité invalide"),
+    price: z.number().positive("Le prix doit être positif"),
+    is_active: z.boolean().default(true),
+  })
+  .refine(
+    (d) => d.condition === "NUEVO" || (d.serial_number && d.serial_number.length > 0),
+    { message: "N° de série obligatoire pour les occasions", path: ["serial_number"] }
+  );
+
+export type InventoryItemFormData = z.infer<typeof inventoryItemSchema>;
+
 // ── Checkout ──────────────────────────────────────────
 export const moroccanPhoneSchema = z
   .string()
