@@ -47,6 +47,14 @@ export const inventoryItemSchema = z
 export type InventoryItemFormData = z.infer<typeof inventoryItemSchema>;
 
 // ── Checkout ──────────────────────────────────────────
+export const MOROCCAN_CITIES = [
+  "Casablanca", "Rabat", "Marrakech", "Fès", "Tanger", "Agadir",
+  "Meknès", "Oujda", "Kénitra", "Tétouan", "Salé", "Nador",
+  "Mohammédia", "El Jadida", "Béni Mellal", "Taza", "Khouribga",
+  "Settat", "Laâyoune", "Safi", "Khémisset", "Guelmim",
+  "Berrechid", "Errachidia", "Taourirt", "Autre",
+] as const;
+
 export const moroccanPhoneSchema = z
   .string()
   .regex(
@@ -55,10 +63,18 @@ export const moroccanPhoneSchema = z
   );
 
 export const checkoutSchema = z.object({
-  fullName: z.string().min(3, "Le nom doit contenir au moins 3 caractères"),
+  fullName: z
+    .string()
+    .min(3, "Le nom doit contenir au moins 3 caractères")
+    .max(100, "Nom trop long"),
   phone: moroccanPhoneSchema,
-  city: z.string().min(2, "Ville requise"),
-  address: z.string().min(10, "Adresse trop courte"),
+  city: z.enum(MOROCCAN_CITIES, {
+    message: "Ville requise",
+  }),
+  address: z
+    .string()
+    .min(10, "Adresse trop courte (minimum 10 caractères)")
+    .max(500, "Adresse trop longue"),
 });
 
 export type CheckoutFormData = z.infer<typeof checkoutSchema>;
