@@ -1,136 +1,121 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-
-/*
-  Layout: 4-column grid on desktop.
-  Row 1: PlayStation (col-span-2) | Xbox (col-span-1) | Nintendo (col-span-1)
-  Row 2: Jeux (col-span-1)        | Occasion (col-span-2) | Accessoires (col-span-1)
-
-  All tiles share the SAME height via a fixed min-h so rows are visually balanced.
-  Gaps are identical on x & y (gap-4).
-  Colored shadow on each tile matches its gradient → Claymorphism glow.
-*/
+import { ArrowRight } from "lucide-react";
 
 const CATEGORIES = [
   {
     label: "PlayStation",
     sublabel: "PS4 · PS5 · Accessoires",
-    emoji: "🎮",
     href: "/p?platform=PlayStation",
-    gradient: "from-blue-500 to-indigo-700",
-    shadow: "shadow-[0_8px_28px_-4px_rgba(99,102,241,0.40)]",
-    span: "md:col-span-2",
+    img: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=500&q=75&auto=format&fit=crop",
+    gradient: "from-blue-900/70 to-blue-600/40",
+    accent: "bg-blue-600",
+    span: "md:col-span-2 md:row-span-2",
+    tall: true,
   },
   {
     label: "Xbox",
     sublabel: "Series X · Series S",
-    emoji: "🟢",
     href: "/p?platform=Xbox",
-    gradient: "from-green-500 to-emerald-700",
-    shadow: "shadow-[0_8px_28px_-4px_rgba(16,185,129,0.38)]",
-    span: "md:col-span-1",
+    img: "https://images.unsplash.com/photo-1621259182978-fbf93132d53d?w=500&q=75&auto=format&fit=crop",
+    gradient: "from-green-900/70 to-green-600/40",
+    accent: "bg-green-600",
+    span: "",
+    tall: false,
   },
   {
     label: "Nintendo",
-    sublabel: "Switch · OLED · Lite",
-    emoji: "🔴",
+    sublabel: "Switch · OLED",
     href: "/p?platform=Nintendo",
-    gradient: "from-red-500 to-rose-700",
-    shadow: "shadow-[0_8px_28px_-4px_rgba(239,68,68,0.35)]",
-    span: "md:col-span-1",
+    img: "https://images.unsplash.com/photo-1578303512597-81e6cc155b3e?w=500&q=75&auto=format&fit=crop",
+    gradient: "from-red-900/70 to-red-600/40",
+    accent: "bg-red-500",
+    span: "",
+    tall: false,
   },
   {
     label: "Jeux Vidéo",
     sublabel: "Tous les titres",
-    emoji: "🕹️",
     href: "/p?platform=Jeux",
-    gradient: "from-violet-500 to-purple-700",
-    shadow: "shadow-[0_8px_28px_-4px_rgba(139,92,246,0.38)]",
-    span: "md:col-span-1",
-  },
-  {
-    label: "Occasion",
-    sublabel: "Testé · Certifié · Garanti",
-    emoji: "✨",
-    href: "/item",
-    gradient: "from-cyan-500 to-teal-700",
-    shadow: "shadow-[0_8px_28px_-4px_rgba(6,182,212,0.38)]",
-    span: "md:col-span-2",
+    img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=500&q=75&auto=format&fit=crop",
+    gradient: "from-violet-900/70 to-violet-600/40",
+    accent: "bg-violet-600",
+    span: "",
+    tall: false,
   },
   {
     label: "Accessoires",
-    sublabel: "Manettes · Casques",
-    emoji: "🎧",
+    sublabel: "Manettes · Casques · Câbles",
     href: "/p?platform=Accessoire",
-    gradient: "from-orange-400 to-amber-600",
-    shadow: "shadow-[0_8px_28px_-4px_rgba(251,146,60,0.38)]",
-    span: "md:col-span-1",
+    img: "https://images.unsplash.com/photo-1592840062661-a5a7f78e2056?w=500&q=75&auto=format&fit=crop",
+    gradient: "from-orange-900/70 to-orange-600/40",
+    accent: "bg-orange-500",
+    span: "",
+    tall: false,
   },
 ];
 
 export function CategoryGrid() {
   return (
-    <section className="px-4 py-10 md:py-16">
-      <div className="mx-auto max-w-6xl">
+    <section className="px-4 py-10 md:py-14">
+      <div className="mx-auto max-w-7xl">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.45 }}
-          className="mb-7"
+          className="mb-7 flex items-end justify-between"
         >
-          <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900">
-            Nos Catégories
-          </h2>
-          <p className="text-slate-500 text-sm mt-1">
-            Trouvez exactement ce que vous cherchez
-          </p>
+          <div>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900">
+              🎯 Nos Catégories
+            </h2>
+            <p className="mt-1 text-sm text-slate-500">
+              Trouvez exactement ce que vous cherchez
+            </p>
+          </div>
+          <Link href="/p"
+            className="hidden md:inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-100 transition-colors">
+            Tout voir <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
         </motion.div>
 
-        {/*
-          grid-cols-2 mobile / grid-cols-4 desktop.
-          gap-4 is uniform in both directions — no gap-x / gap-y discrepancy.
-          All tiles use the same min-h so rows align perfectly.
-        */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {/* Bento grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[180px]">
           {CATEGORIES.map((cat, i) => (
             <motion.div
               key={cat.label}
-              initial={{ opacity: 0, y: 24, scale: 0.96 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              initial={{ opacity: 0, scale: 0.96 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, margin: "-40px" }}
-              transition={{ delay: i * 0.07, duration: 0.45, ease: "easeOut" }}
-              whileHover={{ y: -6, scale: 1.03 }}
-              className={cat.span}
+              transition={{ delay: i * 0.08, duration: 0.45, ease: "easeOut" }}
+              whileHover={{ scale: 1.025 }}
+              className={`${cat.span} ${cat.tall ? "row-span-2" : ""}`}
             >
-              <Link href={cat.href} className="block h-full">
-                <div
-                  className={`
-                    relative overflow-hidden rounded-3xl
-                    bg-gradient-to-br ${cat.gradient}
-                    ${cat.shadow}
-                    min-h-[130px] h-full
-                    p-5 flex flex-col justify-between
-                    cursor-pointer select-none
-                    border border-white/20
-                    transition-transform duration-200
-                  `}
-                >
-                  {/* Decorative circles — contained inside card */}
-                  <div className="pointer-events-none absolute -right-5 -top-5 h-24 w-24 rounded-full bg-white/10" />
-                  <div className="pointer-events-none absolute -right-2 -bottom-6 h-16 w-16 rounded-full bg-white/10" />
+              <Link href={cat.href} className="block h-full w-full">
+                <div className="relative h-full w-full overflow-hidden rounded-3xl shadow-lg group cursor-pointer">
+                  <Image
+                    src={cat.img}
+                    alt={cat.label}
+                    fill
+                    sizes="(max-width: 768px) 50vw, 33vw"
+                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  {/* gradient overlay */}
+                  <div className={`absolute inset-0 bg-gradient-to-t ${cat.gradient}`} />
 
-                  <span className="relative z-10 text-3xl leading-none">{cat.emoji}</span>
-
-                  <div className="relative z-10 mt-3">
-                    <p className="font-extrabold text-white text-[15px] leading-tight">
+                  {/* Content */}
+                  <div className="absolute inset-0 flex flex-col justify-end p-4 md:p-5">
+                    <span className={`mb-2 self-start ${cat.accent} rounded-full px-2.5 py-0.5 text-[10px] font-bold text-white`}>
+                      Explorer →
+                    </span>
+                    <p className="font-extrabold text-white text-base md:text-lg leading-tight drop-shadow">
                       {cat.label}
                     </p>
-                    <p className="mt-0.5 text-white/65 text-xs font-medium">
-                      {cat.sublabel}
-                    </p>
+                    <p className="text-white/70 text-xs mt-0.5 font-medium">{cat.sublabel}</p>
                   </div>
                 </div>
               </Link>
