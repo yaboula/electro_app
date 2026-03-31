@@ -2,56 +2,65 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Star } from "lucide-react";
+import { ArrowRight, Star, ShoppingCart } from "lucide-react";
 
-const PLACEHOLDER_PRODUCTS = [
+const PRODUCTS = [
   {
     id: "1",
     name: "PlayStation 5 Slim",
     platform: "PlayStation",
-    price: 6490,
+    price: 6_490,
     badge: "Nouveau",
-    badgeColor: "bg-blue-100 text-blue-700",
+    badgeBg: "bg-blue-600",
     emoji: "🎮",
-    gradient: "from-blue-50 to-indigo-50",
+    cardBg: "bg-gradient-to-b from-blue-50 to-indigo-50",
     iconGradient: "from-blue-500 to-indigo-600",
-    shadow: "shadow-blue-500/15",
+    // Colored card shadow — the key Claymorphism trick
+    shadowClass: "shadow-[0_10px_36px_-6px_rgba(99,102,241,0.30)]",
+    ctaGradient: "from-blue-600 to-indigo-600",
+    ctaShadow: "shadow-[0_4px_16px_-2px_rgba(99,102,241,0.45)]",
   },
   {
     id: "2",
     name: "Xbox Series S",
     platform: "Xbox",
-    price: 4290,
+    price: 4_290,
     badge: "Stock limité",
-    badgeColor: "bg-green-100 text-green-700",
+    badgeBg: "bg-green-600",
     emoji: "🕹️",
-    gradient: "from-green-50 to-emerald-50",
+    cardBg: "bg-gradient-to-b from-green-50 to-emerald-50",
     iconGradient: "from-green-500 to-emerald-600",
-    shadow: "shadow-green-500/15",
+    shadowClass: "shadow-[0_10px_36px_-6px_rgba(16,185,129,0.28)]",
+    ctaGradient: "from-green-500 to-emerald-600",
+    ctaShadow: "shadow-[0_4px_16px_-2px_rgba(16,185,129,0.40)]",
   },
   {
     id: "3",
     name: "Nintendo Switch OLED",
     platform: "Nintendo",
-    price: 3490,
+    price: 3_490,
     badge: "Top vente",
-    badgeColor: "bg-red-100 text-red-700",
+    badgeBg: "bg-red-500",
     emoji: "🌟",
-    gradient: "from-red-50 to-orange-50",
+    cardBg: "bg-gradient-to-b from-red-50 to-orange-50",
     iconGradient: "from-red-500 to-orange-500",
-    shadow: "shadow-red-500/15",
+    shadowClass: "shadow-[0_10px_36px_-6px_rgba(239,68,68,0.26)]",
+    ctaGradient: "from-red-500 to-orange-500",
+    ctaShadow: "shadow-[0_4px_16px_-2px_rgba(239,68,68,0.38)]",
   },
   {
     id: "4",
-    name: "PS5 — Grade A",
-    platform: "Occasion",
-    price: 4990,
-    badge: "Occasion",
-    badgeColor: "bg-cyan-100 text-cyan-700",
+    name: "PS5 Occasion — Grade A",
+    platform: "Occasion certifiée",
+    price: 4_990,
+    badge: "−15%",
+    badgeBg: "bg-cyan-600",
     emoji: "✨",
-    gradient: "from-cyan-50 to-sky-50",
+    cardBg: "bg-gradient-to-b from-cyan-50 to-sky-50",
     iconGradient: "from-cyan-500 to-sky-600",
-    shadow: "shadow-cyan-500/15",
+    shadowClass: "shadow-[0_10px_36px_-6px_rgba(6,182,212,0.28)]",
+    ctaGradient: "from-cyan-500 to-sky-600",
+    ctaShadow: "shadow-[0_4px_16px_-2px_rgba(6,182,212,0.38)]",
   },
 ];
 
@@ -59,18 +68,19 @@ export function FeaturedSection() {
   return (
     <section className="px-4 py-10 md:py-16">
       <div className="mx-auto max-w-6xl">
+        {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.5 }}
-          className="flex items-end justify-between mb-7"
+          transition={{ duration: 0.45 }}
+          className="mb-7 flex items-end justify-between"
         >
           <div>
             <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900">
               ⚡ Meilleures Offres
             </h2>
-            <p className="text-slate-500 text-sm mt-1">
+            <p className="mt-1 text-sm text-slate-500">
               Sélection du moment · Prix MAD · Livraison incluse
             </p>
           </div>
@@ -82,49 +92,65 @@ export function FeaturedSection() {
           </Link>
         </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {PLACEHOLDER_PRODUCTS.map((product, i) => (
+        {/* Product cards */}
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+          {PRODUCTS.map((p, i) => (
             <motion.div
-              key={product.id}
-              initial={{ opacity: 0, y: 32, scale: 0.94 }}
+              key={p.id}
+              initial={{ opacity: 0, y: 28, scale: 0.95 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true, margin: "-40px" }}
-              transition={{ delay: i * 0.1, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -7, scale: 1.02 }}
-              className="group cursor-pointer"
+              transition={{ delay: i * 0.09, duration: 0.5, ease: "easeOut" }}
+              whileHover={{ y: -8, scale: 1.025 }}
+              className="group"
             >
-              <Link href="/p">
+              <Link href="/p" className="block h-full">
                 <div
-                  className={`card-float ${product.shadow} bg-gradient-to-br ${product.gradient} overflow-hidden flex flex-col`}
+                  className={`
+                    ${p.cardBg} ${p.shadowClass}
+                    rounded-3xl overflow-hidden flex flex-col h-full
+                    border border-white/70
+                  `}
                 >
-                  {/* Image area */}
-                  <div className="relative flex items-center justify-center py-7">
-                    <div
-                      className={`flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${product.iconGradient} shadow-lg`}
-                    >
-                      <span className="text-3xl">{product.emoji}</span>
-                    </div>
-                    {/* Badge */}
+                  {/* ── Visual zone ── */}
+                  <div className="relative flex items-center justify-center py-8">
+                    {/* Badge — pill anchored top-left inside padding, never overflows */}
                     <span
-                      className={`absolute top-3 right-3 text-[10px] font-bold px-2 py-0.5 rounded-full ${product.badgeColor}`}
+                      className={`
+                        absolute left-3 top-3
+                        ${p.badgeBg} text-white
+                        rounded-full px-2.5 py-0.5 text-[10px] font-bold tracking-wide
+                        shadow-sm
+                      `}
                     >
-                      {product.badge}
+                      {p.badge}
                     </span>
+
+                    {/* Product icon */}
+                    <div
+                      className={`
+                        h-16 w-16 rounded-2xl flex items-center justify-center
+                        bg-gradient-to-br ${p.iconGradient}
+                        shadow-lg
+                      `}
+                    >
+                      <span className="text-3xl leading-none">{p.emoji}</span>
+                    </div>
                   </div>
 
-                  {/* Info */}
-                  <div className="px-4 pb-4 flex flex-col gap-2">
+                  {/* ── Info zone ── */}
+                  <div className="flex flex-1 flex-col gap-2.5 px-4 pb-4">
                     <div>
-                      <p className="font-bold text-slate-800 text-sm leading-tight line-clamp-2">
-                        {product.name}
+                      <p className="text-sm font-bold leading-tight text-slate-800 line-clamp-2">
+                        {p.name}
                       </p>
-                      <p className="text-xs text-slate-500 mt-0.5">{product.platform}</p>
+                      <p className="mt-0.5 text-xs text-slate-500">{p.platform}</p>
                     </div>
 
                     <div className="flex items-center justify-between">
-                      <span className="font-extrabold text-slate-900 text-base">
-                        {product.price.toLocaleString("fr-MA")}
-                        <span className="text-xs font-medium text-slate-500 ml-1">MAD</span>
+                      <span className="text-base font-extrabold text-slate-900">
+                        {p.price.toLocaleString("fr-MA")}
+                        <span className="ml-1 text-xs font-medium text-slate-400">MAD</span>
                       </span>
                       <div className="flex items-center gap-0.5">
                         <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
@@ -132,8 +158,22 @@ export function FeaturedSection() {
                       </div>
                     </div>
 
-                    <button className="w-full rounded-full bg-white/80 border border-slate-200 py-1.5 text-xs font-bold text-slate-700 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all duration-200 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600">
-                      Commander →
+                    {/*
+                      CTA: solid gradient button, white text, full-width pill.
+                      Visible immediately (not just on hover) — impossible to ignore.
+                    */}
+                    <button
+                      className={`
+                        mt-auto w-full rounded-full
+                        bg-gradient-to-r ${p.ctaGradient} ${p.ctaShadow}
+                        py-2 text-xs font-bold text-white
+                        flex items-center justify-center gap-1.5
+                        hover:opacity-90 active:scale-95
+                        transition-all duration-150
+                      `}
+                    >
+                      <ShoppingCart className="h-3.5 w-3.5" />
+                      Commander
                     </button>
                   </div>
                 </div>
@@ -142,11 +182,12 @@ export function FeaturedSection() {
           ))}
         </div>
 
+        {/* Mobile CTA link */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="mt-6 flex justify-center md:hidden"
+          className="mt-7 flex justify-center md:hidden"
         >
           <Link
             href="/p"

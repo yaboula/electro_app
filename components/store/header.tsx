@@ -58,8 +58,8 @@ export function Header() {
               ))}
             </nav>
 
-            {/* Search */}
-            <div className="flex-1 max-w-xs ml-auto">
+            {/* Search — capped narrower so WhatsApp button has room to breathe */}
+            <div className="flex-1 max-w-[220px] ml-auto">
               <div className="relative w-full">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
                 <input
