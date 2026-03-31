@@ -1,65 +1,40 @@
-export type ProductCondition = "NUEVO" | "USADO_A" | "USADO_B";
+import type { Database } from "./database.types";
 
-export type OrderStatus =
-  | "PENDIENTE"
-  | "CONFIRMADO"
-  | "ENVIADO"
-  | "ENTREGADO"
-  | "RTO";
+type Tables = Database["public"]["Tables"];
+type Enums = Database["public"]["Enums"];
 
-export interface Product {
-  id: string;
-  title: string;
-  platform: string;
-  type: string;
-  base_description: string;
-  main_image_url: string;
-  is_published: boolean;
-  created_at: string;
-}
+// Row types (what you get from SELECT)
+export type Product = Tables["products"]["Row"];
+export type InventoryItem = Tables["inventory_items"]["Row"];
+export type Customer = Tables["customers"]["Row"];
+export type Order = Tables["orders"]["Row"];
+export type OrderItem = Tables["order_items"]["Row"];
 
-export interface InventoryItem {
-  id: string;
-  product_id: string;
-  condition: ProductCondition;
-  serial_number: string | null;
-  stock_quantity: number;
-  price: number;
-  extra_images: string[];
-  created_at: string;
-}
+// Insert types (what you pass to INSERT)
+export type ProductInsert = Tables["products"]["Insert"];
+export type ProductUpdate = Tables["products"]["Update"];
+export type InventoryItemInsert = Tables["inventory_items"]["Insert"];
+export type InventoryItemUpdate = Tables["inventory_items"]["Update"];
+export type OrderUpdate = Tables["orders"]["Update"];
 
-export interface Customer {
-  id: string;
-  phone: string;
-  full_name: string;
-  default_city: string | null;
-  successful_deliveries: number;
-  failed_deliveries: number;
-}
+// Enum types
+export type ProductCondition = Enums["product_condition"];
+export type OrderStatus = Enums["order_status"];
 
-export interface Order {
-  id: string;
-  customer_id: string;
-  delivery_name: string;
-  delivery_phone: string;
-  city: string;
-  address: string;
-  total_amount: number;
-  status: OrderStatus;
-  dispatch_notes: string | null;
-  created_at: string;
-}
-
-export interface OrderItem {
-  id: string;
-  order_id: string;
-  inventory_item_id: string;
-  quantity: number;
-  unit_price_at_purchase: number;
+// Composite types for views with joins
+export interface ProductWithInventory extends Product {
+  min_price: number;
+  has_used: boolean;
+  active_items_count: number;
 }
 
 export interface OrderWithItems extends Order {
-  items: (OrderItem & { inventory_item: InventoryItem & { product: Product } })[];
+  items: (OrderItem & {
+    inventory_item: InventoryItem & { product: Product };
+  })[];
   customer: Customer;
 }
+
+// RPC return type
+export type CreateOrderResult =
+  Database["public"]["Functions"]["create_order_atomic"]["Returns"];
