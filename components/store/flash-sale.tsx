@@ -1,179 +1,150 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Zap, ArrowRight, Star, ShoppingCart } from "lucide-react";
+import { ShoppingCart, Star, Zap } from "lucide-react";
+import { useEffect, useState } from "react";
 
-/* Countdown helpers */
-function getTimeLeft(target: Date) {
-  const diff = Math.max(0, target.getTime() - Date.now());
-  return {
-    h: Math.floor(diff / 3_600_000),
-    m: Math.floor((diff % 3_600_000) / 60_000),
-    s: Math.floor((diff % 60_000) / 1_000),
-  };
+function useCountdown(seconds: number) {
+  const [left, setLeft] = useState(seconds);
+  useEffect(() => {
+    const id = setInterval(() => setLeft((s) => Math.max(0, s - 1)), 1000);
+    return () => clearInterval(id);
+  }, []);
+  const h = String(Math.floor(left / 3600)).padStart(2, "0");
+  const m = String(Math.floor((left % 3600) / 60)).padStart(2, "0");
+  const s = String(left % 60).padStart(2, "0");
+  return { h, m, s };
 }
 
-function CountdownUnit({ value, label }: { value: number; label: string }) {
-  return (
-    <div className="flex flex-col items-center">
-      <div className="flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-xl bg-slate-900 text-white font-extrabold text-xl md:text-2xl tabular-nums shadow-inner">
-        {String(value).padStart(2, "0")}
-      </div>
-      <span className="mt-1 text-[10px] font-semibold text-slate-500 uppercase tracking-wider">{label}</span>
-    </div>
-  );
-}
-
-const FLASH_PRODUCTS = [
+const DEALS = [
   {
-    id: "f1",
-    name: "Manette DualSense PS5",
-    price: 890,
-    original: 1_100,
-    discount: 19,
-    rating: 4.8,
-    reviews: 64,
-    img: "https://images.unsplash.com/photo-1592840062661-a5a7f78e2056?w=400&q=80&auto=format&fit=crop",
-    badge: "Flash",
-  },
-  {
-    id: "f2",
-    name: "Nintendo Switch OLED",
-    price: 3_290,
-    original: 3_890,
-    discount: 15,
+    name: "PlayStation 5 Slim",
+    platform: "Sony",
+    img: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=400&q=80",
+    price: 3999,
+    was: 5200,
     rating: 4.9,
-    reviews: 112,
-    img: "https://images.unsplash.com/photo-1578303512597-81e6cc155b3e?w=400&q=80&auto=format&fit=crop",
-    badge: "−15%",
+    reviews: 128,
+    shadow: "shadow-indigo-500/25",
   },
   {
-    id: "f3",
-    name: "Casque Gaming SteelSeries",
-    price: 1_190,
-    original: 1_590,
-    discount: 25,
-    rating: 4.7,
-    reviews: 38,
-    img: "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=400&q=80&auto=format&fit=crop",
-    badge: "−25%",
-  },
-  {
-    id: "f4",
-    name: "Xbox Series S — Glacier White",
-    price: 3_990,
-    original: 4_490,
-    discount: 11,
+    name: "Xbox Series X",
+    platform: "Microsoft",
+    img: "https://images.unsplash.com/photo-1621259182978-fbf93132d53d?w=400&q=80",
+    price: 4200,
+    was: 5500,
     rating: 4.8,
-    reviews: 87,
-    img: "https://images.unsplash.com/photo-1621259182978-fbf93132d53d?w=400&q=80&auto=format&fit=crop",
-    badge: "Limité",
+    reviews: 94,
+    shadow: "shadow-green-500/25",
+  },
+  {
+    name: "Nintendo Switch OLED",
+    platform: "Nintendo",
+    img: "https://images.unsplash.com/photo-1598246964989-7bba3a3d7c7e?w=400&q=80",
+    price: 2499,
+    was: 3100,
+    rating: 4.9,
+    reviews: 211,
+    shadow: "shadow-red-500/25",
+  },
+  {
+    name: "DualSense Edge",
+    platform: "Sony",
+    img: "https://images.unsplash.com/photo-1593118247619-e2d6f056869e?w=400&q=80",
+    price: 1299,
+    was: 1800,
+    rating: 4.7,
+    reviews: 76,
+    shadow: "shadow-violet-500/25",
   },
 ];
 
-export function FlashSale() {
-  // Target: 6 hours from mount
-  const [target] = useState(() => new Date(Date.now() + 6 * 3_600_000));
-  const [time, setTime] = useState(getTimeLeft(target));
+const WA_BASE = `https://wa.me/${process.env.NEXT_PUBLIC_ADMIN_WHATSAPP ?? "212600000000"}`;
 
-  useEffect(() => {
-    const id = setInterval(() => setTime(getTimeLeft(target)), 1_000);
-    return () => clearInterval(id);
-  }, [target]);
+export function FlashSale() {
+  const { h, m, s } = useCountdown(4 * 3600 + 37 * 60 + 22);
 
   return (
-    <section className="px-4 py-10 md:py-14">
+    <section className="py-12 px-6 bg-gradient-to-br from-indigo-950 via-violet-950 to-slate-950 rounded-none md:rounded-[2.5rem] mx-0 md:mx-6">
       <div className="mx-auto max-w-7xl">
-        <div className="section-card overflow-hidden">
-          {/* Header bar */}
-          <div className="flex flex-wrap items-center justify-between gap-4 bg-gradient-to-r from-blue-600 to-violet-600 px-6 py-4">
-            <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/20">
-                <Zap className="h-5 w-5 fill-yellow-300 text-yellow-300" />
-              </div>
-              <div>
-                <p className="font-extrabold text-white text-lg leading-none">Flash Sale</p>
-                <p className="text-white/70 text-xs mt-0.5">Offres limitées dans le temps</p>
-              </div>
+        {/* Header */}
+        <div className="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-yellow-400 to-orange-500 shadow-lg shadow-orange-500/30">
+              <Zap className="h-5 w-5 fill-white text-white" />
             </div>
-
-            {/* Countdown */}
-            <div className="flex items-center gap-3">
-              <span className="text-white/70 text-xs font-medium hidden sm:block">Se termine dans</span>
-              <div className="flex items-center gap-2">
-                <CountdownUnit value={time.h} label="Hrs" />
-                <span className="text-white font-bold text-xl mb-4">:</span>
-                <CountdownUnit value={time.m} label="Mins" />
-                <span className="text-white font-bold text-xl mb-4">:</span>
-                <CountdownUnit value={time.s} label="Secs" />
-              </div>
+            <div>
+              <p className="text-xs font-black uppercase tracking-widest text-orange-400 mb-0.5">Offre limitée</p>
+              <h2 className="text-2xl font-black text-white">Flash Sale</h2>
             </div>
-
-            <Link href="/p" className="hidden md:flex items-center gap-1.5 rounded-full bg-white/20 hover:bg-white/30 transition-colors px-4 py-2 text-sm font-semibold text-white">
-              Voir tout <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
           </div>
-
-          {/* Products row */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-0 divide-x divide-y divide-slate-100">
-            {FLASH_PRODUCTS.map((p, i) => (
-              <motion.div
-                key={p.id}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08, duration: 0.4 }}
-                whileHover={{ backgroundColor: "#f8faff" }}
-                className="group flex flex-col p-4 md:p-5 cursor-pointer transition-colors"
-              >
-                <Link href="/p" className="flex flex-col flex-1">
-                  {/* Image */}
-                  <div className="relative mb-3 overflow-hidden rounded-2xl bg-slate-50">
-                    <Image
-                      src={p.img}
-                      alt={p.name}
-                      width={300}
-                      height={300}
-                      className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <span className="absolute top-2 left-2 rounded-full bg-red-500 px-2 py-0.5 text-[10px] font-bold text-white">
-                      {p.badge}
-                    </span>
-                    <span className="absolute top-2 right-2 rounded-full bg-green-500 px-2 py-0.5 text-[10px] font-bold text-white">
-                      −{p.discount}%
-                    </span>
+          {/* Countdown */}
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold text-white/50 mr-1">Fin dans</span>
+            {[{ v: h, l: "H" }, { v: m, l: "M" }, { v: s, l: "S" }].map(({ v, l }, i) => (
+              <div key={l} className="flex items-center gap-2">
+                <div className="text-center">
+                  <div className="min-w-[48px] rounded-2xl bg-white/10 px-3 py-2 text-2xl font-black text-white tabular-nums text-center leading-none backdrop-blur-sm border border-white/10">
+                    {v}
                   </div>
-
-                  <p className="text-xs font-semibold text-slate-800 line-clamp-2 leading-tight mb-1">{p.name}</p>
-
-                  <div className="flex items-center gap-1 mb-2">
-                    <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-                    <span className="text-[11px] font-semibold text-slate-700">{p.rating}</span>
-                    <span className="text-[11px] text-slate-400">({p.reviews})</span>
-                  </div>
-
-                  <div className="mt-auto">
-                    <div className="flex items-baseline gap-1.5 mb-2">
-                      <span className="text-base font-extrabold text-slate-900">
-                        {p.price.toLocaleString("fr-MA")} MAD
-                      </span>
-                      <span className="text-xs font-medium text-slate-400 line-through">
-                        {p.original.toLocaleString("fr-MA")}
-                      </span>
-                    </div>
-
-                    <button className="w-full flex items-center justify-center gap-1.5 rounded-full bg-blue-600 py-2 text-xs font-bold text-white shadow-sm shadow-blue-500/30 hover:bg-blue-700 active:scale-95 transition-all">
-                      <ShoppingCart className="h-3.5 w-3.5" />
-                      Commander
-                    </button>
-                  </div>
-                </Link>
-              </motion.div>
+                  <p className="mt-1 text-[10px] font-bold text-white/40 uppercase">{l}</p>
+                </div>
+                {i < 2 && <span className="text-xl font-black text-white/40 mb-3">:</span>}
+              </div>
             ))}
           </div>
+        </div>
+
+        {/* Products */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {DEALS.map(({ name, platform, img, price, was, rating, reviews, shadow }, i) => {
+            const pct = Math.round((1 - price / was) * 100);
+            const waMsg = `Bonjour, je suis intéressé par ${name} à ${price} MAD`;
+            return (
+              <motion.div
+                key={name}
+                initial={{ opacity: 0, y: 28 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08, duration: 0.45, ease: "easeOut" }}
+                whileHover={{ y: -6, transition: { duration: 0.2 } }}
+                className={`relative bg-white rounded-3xl shadow-2xl ${shadow} border border-white/10 overflow-hidden flex flex-col`}
+              >
+                {/* Discount badge */}
+                <div className="absolute top-3 right-3 z-10 rounded-full bg-gradient-to-br from-red-500 to-rose-600 px-2.5 py-0.5 text-xs font-black text-white shadow-md shadow-red-500/30">
+                  -{pct}%
+                </div>
+                {/* Image */}
+                <div className="relative h-40 overflow-hidden bg-slate-50">
+                  <Image src={img} alt={name} fill className="object-cover" sizes="(max-width: 768px) 50vw, 25vw" />
+                </div>
+                {/* Info */}
+                <div className="flex flex-col gap-2 p-4 flex-1">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-indigo-500">{platform}</p>
+                  <p className="text-sm font-black text-slate-900 leading-tight">{name}</p>
+                  <div className="flex items-center gap-1">
+                    <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+                    <span className="text-xs font-bold text-slate-600">{rating}</span>
+                    <span className="text-xs text-slate-400">({reviews})</span>
+                  </div>
+                  <div className="flex items-baseline gap-2 mt-auto">
+                    <span className="text-lg font-black text-indigo-700">{price.toLocaleString()} MAD</span>
+                    <span className="text-xs text-slate-400 line-through">{was.toLocaleString()}</span>
+                  </div>
+                  <a
+                    href={`${WA_BASE}?text=${encodeURIComponent(waMsg)}`}
+                    target="_blank" rel="noopener noreferrer"
+                    className="clay-btn mt-1 flex items-center justify-center gap-1.5 rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 py-2.5 text-xs font-black text-white"
+                  >
+                    <ShoppingCart className="h-3.5 w-3.5" />
+                    Commander
+                  </a>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>

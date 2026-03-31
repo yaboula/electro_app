@@ -5,117 +5,96 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
-const CATEGORIES = [
+const CATS = [
   {
     label: "PlayStation",
-    sublabel: "PS4 · PS5 · Accessoires",
+    sub: "PS4 · PS5 · VR",
     href: "/p?platform=PlayStation",
-    img: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=500&q=75&auto=format&fit=crop",
-    gradient: "from-blue-900/70 to-blue-600/40",
-    accent: "bg-blue-600",
+    img: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=600&q=80",
+    gradient: "from-blue-600/75 to-indigo-900/80",
     span: "md:col-span-2 md:row-span-2",
-    tall: true,
+    height: "h-[280px] md:h-full",
   },
   {
     label: "Xbox",
-    sublabel: "Series X · Series S",
+    sub: "Series X/S · One",
     href: "/p?platform=Xbox",
-    img: "https://images.unsplash.com/photo-1621259182978-fbf93132d53d?w=500&q=75&auto=format&fit=crop",
-    gradient: "from-green-900/70 to-green-600/40",
-    accent: "bg-green-600",
+    img: "https://images.unsplash.com/photo-1621259182978-fbf93132d53d?w=500&q=80",
+    gradient: "from-green-700/75 to-teal-900/80",
     span: "",
-    tall: false,
+    height: "h-[160px]",
   },
   {
     label: "Nintendo",
-    sublabel: "Switch · OLED",
+    sub: "Switch · OLED",
     href: "/p?platform=Nintendo",
-    img: "https://images.unsplash.com/photo-1578303512597-81e6cc155b3e?w=500&q=75&auto=format&fit=crop",
-    gradient: "from-red-900/70 to-red-600/40",
-    accent: "bg-red-500",
+    img: "https://images.unsplash.com/photo-1598246964989-7bba3a3d7c7e?w=500&q=80",
+    gradient: "from-red-600/75 to-rose-900/80",
     span: "",
-    tall: false,
+    height: "h-[160px]",
   },
   {
     label: "Jeux Vidéo",
-    sublabel: "Tous les titres",
+    sub: "Toutes plateformes",
     href: "/p?platform=Jeux",
-    img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=500&q=75&auto=format&fit=crop",
-    gradient: "from-violet-900/70 to-violet-600/40",
-    accent: "bg-violet-600",
+    img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=500&q=80",
+    gradient: "from-violet-600/75 to-purple-900/80",
     span: "",
-    tall: false,
+    height: "h-[160px]",
   },
   {
     label: "Accessoires",
-    sublabel: "Manettes · Casques · Câbles",
+    sub: "Manettes · Casques",
     href: "/p?platform=Accessoire",
-    img: "https://images.unsplash.com/photo-1592840062661-a5a7f78e2056?w=500&q=75&auto=format&fit=crop",
-    gradient: "from-orange-900/70 to-orange-600/40",
-    accent: "bg-orange-500",
+    img: "https://images.unsplash.com/photo-1593118247619-e2d6f056869e?w=500&q=80",
+    gradient: "from-orange-600/75 to-amber-900/80",
     span: "",
-    tall: false,
+    height: "h-[160px]",
   },
 ];
 
 export function CategoryGrid() {
   return (
-    <section className="px-4 py-10 md:py-14">
+    <section className="py-12 px-6">
       <div className="mx-auto max-w-7xl">
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.45 }}
-          className="mb-7 flex items-end justify-between"
-        >
+        {/* Section title */}
+        <div className="mb-8 flex items-end justify-between">
           <div>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900">
-              🎯 Nos Catégories
-            </h2>
-            <p className="mt-1 text-sm text-slate-500">
-              Trouvez exactement ce que vous cherchez
-            </p>
+            <p className="text-xs font-black uppercase tracking-widest text-indigo-600 mb-1">Catalogue</p>
+            <h2 className="text-3xl font-black text-slate-900 leading-tight">Nos catégories</h2>
           </div>
-          <Link href="/p"
-            className="hidden md:inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-100 transition-colors">
-            Tout voir <ArrowRight className="h-3.5 w-3.5" />
+          <Link href="/p" className="hidden md:flex items-center gap-1.5 text-sm font-bold text-indigo-600 hover:text-indigo-800 transition-colors">
+            Voir tout <ArrowRight className="h-4 w-4" />
           </Link>
-        </motion.div>
+        </div>
 
         {/* Bento grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[180px]">
-          {CATEGORIES.map((cat, i) => (
+        <div className="grid grid-cols-2 md:grid-cols-4 md:grid-rows-2 gap-4">
+          {CATS.map(({ label, sub, href, img, gradient, span, height }, i) => (
             <motion.div
-              key={cat.label}
-              initial={{ opacity: 0, scale: 0.96 }}
+              key={label}
+              initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ delay: i * 0.08, duration: 0.45, ease: "easeOut" }}
-              whileHover={{ scale: 1.025 }}
-              className={`${cat.span} ${cat.tall ? "row-span-2" : ""}`}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ delay: i * 0.07, duration: 0.45, ease: "easeOut" }}
+              className={span}
             >
-              <Link href={cat.href} className="block h-full w-full">
-                <div className="relative h-full w-full overflow-hidden rounded-3xl shadow-lg group cursor-pointer">
-                  <Image
-                    src={cat.img}
-                    alt={cat.label}
-                    fill
-                    sizes="(max-width: 768px) 50vw, 33vw"
-                    className="object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  {/* gradient overlay */}
-                  <div className={`absolute inset-0 bg-gradient-to-t ${cat.gradient}`} />
-
-                  {/* Content */}
-                  <div className="absolute inset-0 flex flex-col justify-end p-4 md:p-5">
-                    <span className={`mb-2 self-start ${cat.accent} rounded-full px-2.5 py-0.5 text-[10px] font-bold text-white`}>
-                      Explorer →
-                    </span>
-                    <p className="font-extrabold text-white text-base md:text-lg leading-tight drop-shadow">
-                      {cat.label}
-                    </p>
-                    <p className="text-white/70 text-xs mt-0.5 font-medium">{cat.sublabel}</p>
+              <Link href={href} className={`group relative flex overflow-hidden rounded-3xl ${height} shadow-xl shadow-slate-900/15`}>
+                <Image
+                  src={img}
+                  alt={label}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                />
+                <div className={`absolute inset-0 bg-gradient-to-t ${gradient}`} />
+                <div className="absolute inset-x-0 bottom-0 p-5 flex items-end justify-between">
+                  <div>
+                    <p className="text-lg font-black text-white leading-tight">{label}</p>
+                    <p className="text-xs font-semibold text-white/75">{sub}</p>
+                  </div>
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm text-white transition-all group-hover:bg-white group-hover:text-slate-900">
+                    <ArrowRight className="h-4 w-4" />
                   </div>
                 </div>
               </Link>

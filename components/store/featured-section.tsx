@@ -3,200 +3,138 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Star, ShoppingCart, Heart } from "lucide-react";
+import { ShoppingCart, Heart, Star, ArrowRight } from "lucide-react";
 
 const PRODUCTS = [
   {
-    id: "1",
-    name: "PlayStation 5 Slim — Édition Standard",
+    name: "PS5 Standard",
     platform: "PlayStation",
-    price: 6_490,
-    original: 7_200,
-    discount: 10,
-    rating: 4.9,
-    reviews: 214,
+    img: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=400&q=80",
+    price: 4599,
     badge: "Nouveau",
-    badgeBg: "bg-blue-600",
-    img: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=400&q=80&auto=format&fit=crop",
-  },
-  {
-    id: "2",
-    name: "Xbox Series S — Glacier White",
-    platform: "Xbox",
-    price: 4_290,
-    original: 4_690,
-    discount: 9,
-    rating: 4.8,
-    reviews: 156,
-    badge: "Stock limité",
-    badgeBg: "bg-orange-500",
-    img: "https://images.unsplash.com/photo-1621259182978-fbf93132d53d?w=400&q=80&auto=format&fit=crop",
-  },
-  {
-    id: "3",
-    name: "Nintendo Switch OLED — Édition Blanche",
-    platform: "Nintendo",
-    price: 3_490,
-    original: 3_890,
-    discount: 10,
+    badgeColor: "bg-indigo-600 text-white",
     rating: 4.9,
-    reviews: 312,
+    shadow: "shadow-indigo-500/20",
+  },
+  {
+    name: "Xbox Series S",
+    platform: "Xbox",
+    img: "https://images.unsplash.com/photo-1621259182978-fbf93132d53d?w=400&q=80",
+    price: 3299,
     badge: "Top vente",
-    badgeBg: "bg-red-500",
-    img: "https://images.unsplash.com/photo-1578303512597-81e6cc155b3e?w=400&q=80&auto=format&fit=crop",
-  },
-  {
-    id: "4",
-    name: "Manette DualSense — Cosmic Red",
-    platform: "Accessoire PS5",
-    price: 990,
-    original: 1_200,
-    discount: 18,
+    badgeColor: "bg-green-600 text-white",
     rating: 4.7,
-    reviews: 89,
-    badge: "−18%",
-    badgeBg: "bg-violet-600",
-    img: "https://images.unsplash.com/photo-1592840062661-a5a7f78e2056?w=400&q=80&auto=format&fit=crop",
+    shadow: "shadow-green-500/20",
   },
   {
-    id: "5",
-    name: "Casque Gaming — Sans Fil 7.1",
-    platform: "Accessoire",
-    price: 1_290,
-    original: 1_690,
-    discount: 24,
-    rating: 4.6,
-    reviews: 47,
-    badge: "Promo",
-    badgeBg: "bg-green-600",
-    img: "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=400&q=80&auto=format&fit=crop",
-  },
-  {
-    id: "6",
-    name: "FIFA 25 — PS5 & Xbox",
-    platform: "Jeu vidéo",
-    price: 490,
-    original: 590,
-    discount: 17,
-    rating: 4.5,
-    reviews: 203,
+    name: "Switch OLED Blanc",
+    platform: "Nintendo",
+    img: "https://images.unsplash.com/photo-1598246964989-7bba3a3d7c7e?w=400&q=80",
+    price: 2799,
     badge: "Populaire",
-    badgeBg: "bg-cyan-600",
-    img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&q=80&auto=format&fit=crop",
+    badgeColor: "bg-red-500 text-white",
+    rating: 4.9,
+    shadow: "shadow-red-500/20",
+  },
+  {
+    name: "DualSense Midnight",
+    platform: "PlayStation",
+    img: "https://images.unsplash.com/photo-1593118247619-e2d6f056869e?w=400&q=80",
+    price: 899,
+    badge: "Nouveau",
+    badgeColor: "bg-violet-600 text-white",
+    rating: 4.8,
+    shadow: "shadow-violet-500/20",
+  },
+  {
+    name: "GTA VI",
+    platform: "PlayStation",
+    img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&q=80",
+    price: 599,
+    badge: "Pré-commande",
+    badgeColor: "bg-orange-500 text-white",
+    rating: 5.0,
+    shadow: "shadow-orange-500/20",
+  },
+  {
+    name: "Xbox Elite Pad v2",
+    platform: "Xbox",
+    img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&q=80",
+    price: 1499,
+    badge: "Stock limité",
+    badgeColor: "bg-rose-500 text-white",
+    rating: 4.6,
+    shadow: "shadow-rose-500/20",
   },
 ];
 
+const WA_BASE = `https://wa.me/${process.env.NEXT_PUBLIC_ADMIN_WHATSAPP ?? "212600000000"}`;
+
 export function FeaturedSection() {
   return (
-    <section className="px-4 py-10 md:py-14">
+    <section className="py-12 px-6">
       <div className="mx-auto max-w-7xl">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.45 }}
-          className="mb-7 flex items-end justify-between"
-        >
+        {/* Title */}
+        <div className="mb-8 flex items-end justify-between">
           <div>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900">
-              ⚡ Meilleures Offres
-            </h2>
-            <p className="mt-1 text-sm text-slate-500">
-              Sélection du moment · Paiement à la livraison · Stock en temps réel
-            </p>
+            <p className="text-xs font-black uppercase tracking-widest text-indigo-600 mb-1">Sélection</p>
+            <h2 className="text-3xl font-black text-slate-900 leading-tight">Meilleures offres</h2>
           </div>
-          <Link href="/p"
-            className="hidden md:inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-100 transition-colors">
-            Tout voir <ArrowRight className="h-3.5 w-3.5" />
+          <Link href="/p" className="hidden md:flex items-center gap-1.5 text-sm font-bold text-indigo-600 hover:text-indigo-800 transition-colors">
+            Voir tout <ArrowRight className="h-4 w-4" />
           </Link>
-        </motion.div>
+        </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
-          {PRODUCTS.map((p, i) => (
-            <motion.div
-              key={p.id}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ delay: i * 0.07, duration: 0.45, ease: "easeOut" }}
-              className="product-card group flex flex-col overflow-hidden"
-            >
-              <Link href="/p" className="flex flex-col flex-1">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          {PRODUCTS.map(({ name, platform, img, price, badge, badgeColor, rating, shadow }, i) => {
+            const waMsg = `Bonjour, je suis intéressé par ${name} à ${price} MAD`;
+            return (
+              <motion.div
+                key={name}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ delay: i * 0.06, duration: 0.4, ease: "easeOut" }}
+                className={`product-card group flex flex-col overflow-hidden shadow-xl ${shadow}`}
+              >
                 {/* Image */}
-                <div className="relative overflow-hidden bg-gradient-to-br from-slate-50 to-blue-50/30">
-                  <Image
-                    src={p.img}
-                    alt={p.name}
-                    width={300}
-                    height={300}
-                    className="w-full aspect-square object-cover group-hover:scale-106 transition-transform duration-400"
+                <div className="relative h-36 overflow-hidden">
+                  <Image src={img} alt={name} fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-108"
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 17vw"
                   />
                   {/* Badge */}
-                  <span className={`absolute left-2.5 top-2.5 ${p.badgeBg} rounded-full px-2.5 py-0.5 text-[10px] font-bold text-white`}>
-                    {p.badge}
+                  <span className={`absolute left-2.5 top-2.5 rounded-full px-2 py-0.5 text-[10px] font-black ${badgeColor} shadow-sm`}>
+                    {badge}
                   </span>
-                  {p.discount > 0 && (
-                    <span className="absolute right-2.5 top-2.5 rounded-full bg-red-500 px-2 py-0.5 text-[10px] font-bold text-white">
-                      −{p.discount}%
-                    </span>
-                  )}
                   {/* Wishlist */}
-                  <button
-                    onClick={(e) => e.preventDefault()}
-                    className="absolute bottom-2.5 right-2.5 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-slate-400 opacity-0 group-hover:opacity-100 hover:text-red-500 transition-all shadow-sm">
+                  <button className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-white/80 text-slate-400 opacity-0 group-hover:opacity-100 transition-all hover:text-rose-500 hover:bg-white">
                     <Heart className="h-4 w-4" />
                   </button>
                 </div>
 
                 {/* Info */}
-                <div className="flex flex-1 flex-col gap-1.5 p-3">
-                  <p className="text-[11px] font-semibold text-blue-600 uppercase tracking-wide">{p.platform}</p>
-                  <p className="text-sm font-bold text-slate-800 leading-tight line-clamp-2">{p.name}</p>
-
+                <div className="flex flex-col gap-2 p-3 flex-1">
+                  <p className="text-[10px] font-bold uppercase tracking-wide text-indigo-500">{platform}</p>
+                  <p className="text-xs font-black text-slate-900 leading-tight line-clamp-2">{name}</p>
                   <div className="flex items-center gap-1">
                     <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-                    <span className="text-xs font-semibold text-slate-700">{p.rating}</span>
-                    <span className="text-xs text-slate-400">({p.reviews})</span>
+                    <span className="text-[10px] font-bold text-slate-600">{rating}</span>
                   </div>
-
-                  <div className="mt-auto pt-1.5">
-                    <div className="flex items-baseline gap-1.5 mb-2">
-                      <span className="text-base font-extrabold text-slate-900">
-                        {p.price.toLocaleString("fr-MA")}
-                        <span className="text-xs font-medium text-slate-400 ml-1">MAD</span>
-                      </span>
-                      {p.original > p.price && (
-                        <span className="text-xs text-slate-400 line-through">
-                          {p.original.toLocaleString("fr-MA")}
-                        </span>
-                      )}
-                    </div>
-
-                    <button className="w-full flex items-center justify-center gap-1.5 rounded-full bg-blue-600 py-2 text-xs font-bold text-white shadow-sm shadow-blue-500/25 hover:bg-blue-700 active:scale-95 transition-all">
-                      <ShoppingCart className="h-3.5 w-3.5" />
-                      Commander
-                    </button>
-                  </div>
+                  <p className="mt-auto text-base font-black text-indigo-700">{price.toLocaleString()} MAD</p>
+                  <a
+                    href={`${WA_BASE}?text=${encodeURIComponent(waMsg)}`}
+                    target="_blank" rel="noopener noreferrer"
+                    className="clay-btn flex items-center justify-center gap-1.5 rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 py-2 text-[11px] font-black text-white"
+                  >
+                    <ShoppingCart className="h-3.5 w-3.5" />
+                    Commander
+                  </a>
                 </div>
-              </Link>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
-
-        {/* Mobile CTA */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="mt-7 flex justify-center md:hidden"
-        >
-          <Link href="/p"
-            className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-8 py-3 text-sm font-bold text-white btn-glow">
-            Voir tout le catalogue <ArrowRight className="h-4 w-4" />
-          </Link>
-        </motion.div>
       </div>
     </section>
   );

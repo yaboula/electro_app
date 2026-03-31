@@ -1,53 +1,48 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 
-/* Brand logos as SVG/text pills — no external image deps */
 const BRANDS = [
-  { name: "PlayStation", color: "#003087", bg: "bg-[#003087]", text: "text-white" },
-  { name: "Xbox",        color: "#107C10", bg: "bg-[#107C10]", text: "text-white" },
-  { name: "Nintendo",   color: "#E4000F", bg: "bg-[#E4000F]", text: "text-white" },
-  { name: "EA Sports",  color: "#1a1a2e", bg: "bg-slate-900",  text: "text-white" },
-  { name: "Ubisoft",    color: "#0040FF", bg: "bg-blue-600",   text: "text-white" },
-  { name: "Activision", color: "#1a1a1a", bg: "bg-slate-800",  text: "text-white" },
-  { name: "Rockstar",   color: "#fbbf24", bg: "bg-amber-400",  text: "text-slate-900" },
-  { name: "Capcom",     color: "#2563eb", bg: "bg-blue-700",   text: "text-white" },
+  { name: "PlayStation", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Playstation_logo_colour.svg/240px-Playstation_logo_colour.svg.png", bg: "bg-[#003087]",  text: "text-white" },
+  { name: "Xbox",        logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Xbox_one_logo.svg/240px-Xbox_one_logo.svg.png",               bg: "bg-[#107C10]",  text: "text-white" },
+  { name: "Nintendo",   logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Nintendo.svg/240px-Nintendo.svg.png",                          bg: "bg-[#E4000F]",  text: "text-white" },
+  { name: "EA Sports",  logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/EA_Sports_Logo.svg/240px-EA_Sports_Logo.svg.png",              bg: "bg-[#ff4747]",  text: "text-white" },
+  { name: "Ubisoft",    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Ubisoft_logo.svg/240px-Ubisoft_logo.svg.png",                  bg: "bg-slate-900",  text: "text-white" },
+  { name: "Rockstar",   logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Rockstar_Games_Logo.svg/240px-Rockstar_Games_Logo.svg.png",    bg: "bg-[#FCAF17]",  text: "text-slate-900" },
+  { name: "Activision", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Activision.svg/240px-Activision.svg.png",                      bg: "bg-slate-800",  text: "text-white" },
+  { name: "2K Games",   logo: null, bg: "bg-gradient-to-br from-indigo-600 to-violet-600", text: "text-white" },
 ];
 
 export function BrandsBanner() {
   return (
-    <section className="px-4 py-8 md:py-10">
+    <section className="py-12 px-6">
       <div className="mx-auto max-w-7xl">
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="mb-5 text-center text-sm font-semibold text-slate-400 uppercase tracking-widest"
-        >
-          Marques officielles disponibles
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.45 }}
-          className="flex flex-wrap items-center justify-center gap-3"
-        >
-          {BRANDS.map((b, i) => (
+        <div className="mb-6 text-center">
+          <p className="text-xs font-black uppercase tracking-widest text-indigo-600 mb-1">Partenaires officiels</p>
+          <h2 className="text-3xl font-black text-slate-900">Marques disponibles</h2>
+        </div>
+        <div className="grid grid-cols-4 md:grid-cols-8 gap-3">
+          {BRANDS.map(({ name, logo, bg, text }, i) => (
             <motion.div
-              key={b.name}
-              initial={{ opacity: 0, scale: 0.88 }}
+              key={name}
+              initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.06, duration: 0.35 }}
-              whileHover={{ scale: 1.08, y: -2 }}
-              className={`${b.bg} ${b.text} rounded-2xl px-6 py-3 font-extrabold text-sm tracking-tight cursor-pointer shadow-sm transition-shadow hover:shadow-md`}
+              transition={{ delay: i * 0.05, duration: 0.35, ease: "easeOut" }}
+              whileHover={{ y: -4, scale: 1.06 }}
+              className={`flex flex-col items-center justify-center gap-1.5 rounded-2xl ${bg} p-4 h-20 shadow-lg cursor-pointer transition-shadow hover:shadow-xl`}
             >
-              {b.name}
+              {logo ? (
+                <div className="relative h-8 w-full">
+                  <Image src={logo} alt={name} fill className="object-contain brightness-200" sizes="80px" />
+                </div>
+              ) : (
+                <p className={`text-base font-black ${text} text-center leading-tight`}>{name}</p>
+              )}
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

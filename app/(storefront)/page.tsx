@@ -1,4 +1,5 @@
 import { HeroSection }    from "@/components/store/hero-section";
+import { StatsBar }       from "@/components/store/stats-bar";
 import { FlashSale }       from "@/components/store/flash-sale";
 import { CategoryGrid }    from "@/components/store/category-grid";
 import { FeaturedSection } from "@/components/store/featured-section";
@@ -10,6 +11,7 @@ export default function HomePage() {
   return (
     <div className="overflow-x-hidden">
       <HeroSection />
+      <StatsBar />
       <FlashSale />
       <CategoryGrid />
       <FeaturedSection />

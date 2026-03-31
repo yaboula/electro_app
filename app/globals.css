@@ -1,131 +1,198 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: var(--font-poppins);
+  --font-sans:    var(--font-poppins);
+  --font-display: var(--font-poppins);
 
-  --color-electric:       #2563eb;
-  --color-electric-dark:  #1d4ed8;
-  --color-electric-light: #60a5fa;
-  --color-surface:        #f0f4ff;
-  --color-surface-alt:    #f8faff;
-  --color-card:           #ffffff;
+  /* ── Clay palette ── */
+  --color-clay-bg:     #f2eef9;
+  --color-clay-blue:   #4f8ef7;
+  --color-clay-violet: #a78bfa;
+  --color-clay-pink:   #f472b6;
+  --color-clay-peach:  #fca5a5;
+  --color-clay-green:  #6ee7b7;
+  --color-clay-yellow: #fde68a;
+  --color-clay-sky:    #bae6fd;
+  --color-surface:     #ffffff;
 }
 
 :root {
-  --background: #f0f4ff;
+  --bg-page: #eeeaf8;
   color-scheme: light;
 }
 
+/* ───────────────────────────────────────────────────────
+   BASE
+──────────────────────────────────────────────────────── */
 @layer base {
   html {
     font-family: var(--font-poppins), system-ui, sans-serif;
-    background-color: #f0f4ff;
-    color: #0f172a;
+    background-color: var(--bg-page);
+    color: #0f0a1e;
     color-scheme: light;
     @apply scroll-smooth;
   }
-  * {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   body {
     min-height: 100dvh;
-    background-color: #f0f4ff;
+    background-color: var(--bg-page);
     -webkit-font-smoothing: antialiased;
   }
 }
 
-/* ─── Glass header ───────────────────────────────────── */
+/* ───────────────────────────────────────────────────────
+   CLAYMORPHISM CARD
+   The secret: heavy colored shadow + white inner highlight
+──────────────────────────────────────────────────────── */
+.clay-card {
+  background: #ffffff;
+  border-radius: 1.75rem;
+  box-shadow:
+    /* colored lift */
+    0 12px 40px -8px rgba(99, 102, 241, 0.28),
+    /* soft ambient */
+    0 4px 16px -4px rgba(99, 102, 241, 0.12),
+    /* inner highlight — the clay "plastic" feel */
+    inset 0 1px 0 rgba(255,255,255,0.9);
+  border: 1px solid rgba(255,255,255,0.7);
+}
+
+.clay-card-blue {
+  background: #ffffff;
+  border-radius: 1.75rem;
+  box-shadow:
+    0 12px 40px -8px rgba(79, 142, 247, 0.35),
+    0 4px 16px -4px rgba(79, 142, 247, 0.15),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+  border: 1px solid rgba(255,255,255,0.7);
+}
+
+.clay-card-violet {
+  background: #ffffff;
+  border-radius: 1.75rem;
+  box-shadow:
+    0 12px 40px -8px rgba(167, 139, 250, 0.38),
+    0 4px 16px -4px rgba(167, 139, 250, 0.16),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+  border: 1px solid rgba(255,255,255,0.7);
+}
+
+.clay-card-green {
+  background: #ffffff;
+  border-radius: 1.75rem;
+  box-shadow:
+    0 12px 40px -8px rgba(110, 231, 183, 0.40),
+    0 4px 16px -4px rgba(110, 231, 183, 0.18),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+  border: 1px solid rgba(255,255,255,0.7);
+}
+
+/* ───────────────────────────────────────────────────────
+   CLAY PILL BUTTON
+──────────────────────────────────────────────────────── */
+.clay-btn {
+  border-radius: 9999px;
+  box-shadow:
+    0 6px 20px -3px rgba(79, 142, 247, 0.45),
+    inset 0 1px 0 rgba(255,255,255,0.35);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.clay-btn:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 10px 28px -4px rgba(79, 142, 247, 0.55),
+    inset 0 1px 0 rgba(255,255,255,0.35);
+}
+.clay-btn:active { transform: translateY(0); }
+
+.clay-btn-green {
+  border-radius: 9999px;
+  box-shadow:
+    0 6px 20px -3px rgba(34, 197, 94, 0.45),
+    inset 0 1px 0 rgba(255,255,255,0.35);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.clay-btn-green:hover { transform: translateY(-2px); }
+
+/* ───────────────────────────────────────────────────────
+   GLASS HEADER
+──────────────────────────────────────────────────────── */
 .glass-header {
-  background: rgba(255,255,255,0.82);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border-bottom: 1px solid rgba(37,99,235,0.10);
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border-bottom: 1px solid rgba(99,102,241,0.08);
 }
 
-/* ─── Gradient text ──────────────────────────────────── */
-.gradient-text {
-  background: linear-gradient(135deg,#2563eb 0%,#7c3aed 60%,#06b6d4 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* ───────────────────────────────────────────────────────
+   PAGE GRADIENT BACKGROUND
+──────────────────────────────────────────────────────── */
+.page-bg {
+  background: radial-gradient(ellipse 90% 60% at 60% -10%, #d4c9f8 0%, #eeeaf8 55%, #f2f0fc 100%);
 }
 
-/* ─── Blue glow CTA ──────────────────────────────────── */
-.btn-glow {
-  box-shadow: 0 4px 22px rgba(37,99,235,0.38);
-  transition: box-shadow 0.2s ease, transform 0.15s ease;
-}
-.btn-glow:hover {
-  box-shadow: 0 6px 30px rgba(37,99,235,0.55);
-  transform: translateY(-1px);
-}
-
-/* ─── WhatsApp glow ──────────────────────────────────── */
-.btn-whatsapp {
-  box-shadow: 0 4px 18px rgba(34,197,94,0.32);
-  transition: box-shadow 0.2s ease, transform 0.15s ease;
-}
-.btn-whatsapp:hover {
-  box-shadow: 0 6px 26px rgba(34,197,94,0.48);
-  transform: translateY(-1px);
-}
-
-/* ─── Product card ───────────────────────────────────── */
+/* ───────────────────────────────────────────────────────
+   PRODUCT CARD (for grid)
+──────────────────────────────────────────────────────── */
 .product-card {
   background: #ffffff;
-  border-radius: 1.25rem;
-  border: 1px solid rgba(37,99,235,0.07);
+  border-radius: 1.5rem;
+  border: 1px solid rgba(99,102,241,0.07);
+  box-shadow: 0 4px 20px -4px rgba(99,102,241,0.12), inset 0 1px 0 rgba(255,255,255,0.9);
   transition: transform 0.22s ease, box-shadow 0.22s ease;
 }
 .product-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 40px -8px rgba(37,99,235,0.22);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 50px -10px rgba(99,102,241,0.28), inset 0 1px 0 rgba(255,255,255,0.9);
 }
 
-/* ─── Section card (featured, flash) ────────────────── */
+/* ───────────────────────────────────────────────────────
+   SECTION CARD
+──────────────────────────────────────────────────────── */
 .section-card {
   background: #ffffff;
-  border-radius: 1.5rem;
-  box-shadow: 0 2px 12px rgba(37,99,235,0.06), 0 8px 32px -4px rgba(37,99,235,0.08);
+  border-radius: 2rem;
+  box-shadow: 0 4px 24px -4px rgba(99,102,241,0.10), inset 0 1px 0 rgba(255,255,255,0.9);
+  border: 1px solid rgba(255,255,255,0.8);
 }
 
-/* ─── Horizontal scroll strip ───────────────────────── */
-.scroll-x {
-  overflow-x: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-.scroll-x::-webkit-scrollbar { display: none; }
-
-/* ─── Blob background decoration ────────────────────── */
+/* ───────────────────────────────────────────────────────
+   BLOB decoration
+──────────────────────────────────────────────────────── */
 .blob {
   filter: blur(72px);
   border-radius: 9999px;
   position: absolute;
   pointer-events: none;
-  opacity: 0.28;
+  opacity: 0.5;
 }
 
-/* ─── Image aspect helpers ───────────────────────────── */
-.img-product {
-  aspect-ratio: 1 / 1;
-  object-fit: contain;
-  width: 100%;
-}
-.img-hero {
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  width: 100%;
-  border-radius: 1.5rem;
-}
+/* ───────────────────────────────────────────────────────
+   HORIZONTAL SCROLL
+──────────────────────────────────────────────────────── */
+.scroll-x { overflow-x: auto; scrollbar-width: none; }
+.scroll-x::-webkit-scrollbar { display: none; }
 
-/* ─── Promo top bar ──────────────────────────────────── */
+/* ───────────────────────────────────────────────────────
+   PROMO BAR
+──────────────────────────────────────────────────────── */
 .promo-bar {
-  background: linear-gradient(90deg, #1d4ed8 0%, #2563eb 50%, #7c3aed 100%);
+  background: linear-gradient(90deg, #4338ca 0%, #4f8ef7 50%, #7c3aed 100%);
 }
 
-/* ─── Scrollbar global subtle ────────────────────────── */
+/* ───────────────────────────────────────────────────────
+   TYPOGRAPHY UTILITY
+──────────────────────────────────────────────────────── */
+.display-black {
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  color: #0f0a1e;
+}
+
+/* ───────────────────────────────────────────────────────
+   SCROLLBAR
+──────────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(37,99,235,0.16); border-radius: 9999px; }
+::-webkit-scrollbar-thumb { background: rgba(99,102,241,0.18); border-radius: 9999px; }
